@@ -1,2 +1,17 @@
-# jobsteter_alphapart
+# Obsteter et al. (2020) AlphaPart
 
+
+1.  `AlphaPart_Simulation.R` script to simulate a two-tier pig breeding programs. 
+    It uses AlphaSimR to simulate 20 years of burn-in and 20 years of selection in two programmes:
+	
+*   Programme 1 = MaleFlow100: The multiplier uses only nucleus males
+*   Programme 2 = MaleFlow50: The multiplier uses nucleus and multiplier males
+*   We simulate two traits in the programmes, trait 1 has h2 of 0.25 and is measured in the nucleus as well as the multiplier, while trait 2 has h2 of 0.1 and is measured only in the nucleus.
+  It creates files PedEvalX.csv holding the pedigree and individuals' information, DataEvalX.csv holding the genetic trend, and AccuraciesX.csv holding the accuracies of the breeding values.
+
+
+2.  `AlphaPart_Partition.R` script to partition the simulation results. It partitions the estimated and true breeding values of the complete breeding programme or separately for the nucleus and the multiplier.
+    It creates files PartitionPN1.csv and PartitionPN2.csv holding the nucleus / multiplier partitions of Programme 1 and Programme 2.
+
+3.  Essentials folder holds the support files (parameter files, scripts) to run the simulation. The folder has to be in the directory, where the simulation is run from.
+     To obtain the estimated breeding values in the simulation, the user should download renumf90 and blupf90 from Ignacy Misztal's group (University of Georgia) and move it into the Essentials folder.
