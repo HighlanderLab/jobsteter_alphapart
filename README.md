@@ -1,6 +1,7 @@
 # Please cite: Obšteter et al. (2020)
 
 
+This folder contains:
 1.  `AlphaPart_Simulation.R` script to simulate a two-tier pig breeding programs. It uses AlphaSimR to simulate 20 years of burn-in and 20 years of selection in two programmes:
 
 *   Programme 1 = MaleFlow100: The multiplier uses only nucleus males (25)
