@@ -7,7 +7,7 @@ library(package = "AlphaPart")
 # ---- Notes ---- 
 ### SET THE homeDir to WHERE YOU WANT TO RUN THE SIMULATION
 ### THE DOWNLOADED Essentials FOLDER SHOULD BE IN THIS DIRECTORY!!!
-### For this script to run, you should download renumf90 and blupf90 (Mizstal et al., Univeristy of Georgia) and move it into the Essentials folder.
+### For this script to run, you should download renumf90 and blupf90 (Mizstal et al., Univeristy of Georgia) and55+41+ move it into the Essentials folder.
 homeDir = getwd()
 
 # ---- Glossary ----
@@ -25,8 +25,8 @@ nGNMales   =  25
 nGNFemales = 500
 
 nPNMales       =  100
-nPNFemales     = 5000
-pPNFemalesPure = 0.15
+nPNFemales     = 4500
+pPNFemalesPure = 1/6
 
 nGenerationBurn = 20
 nGenerationEval = 20
@@ -127,9 +127,9 @@ for (Generation in 1:nGenerationBurn) {
   
   # Select nucleus males and females for the new generation
   BaseGNMales   = selectInd(pop = SelCand, nInd = nGNMales,   gender = "M",
-                            use = "pheno", trait = function(x) rowMeans(x))
+                            use = "pheno", trait = function(x) rowMeans(scale(x)))
   BaseGNFemales = selectInd(pop = SelCand, nInd = nGNFemales, gender = "F",
-                            use = "pheno", trait = function(x) rowMeans(x))
+                            use = "pheno", trait = function(x) rowMeans(scale(x)))
 }
 
 # Plot genetic means
@@ -155,7 +155,7 @@ SelCand = SelCand[!(SelCand@id %in% GNInd)]; SelCand@nInd
 SelCand@gender[] = "F"
 # Select base multiplier females
 BasePNFemales = selectInd(pop = SelCand, nInd = nPNFemales, gender = "F",
-                          use = "pheno", trait = function(x) rowMeans(x))
+                          use = "pheno", trait = function(x) rowMeans(scale(x)))
 
 
 # Save the burn-in pedigree to use it for both programs
@@ -295,9 +295,9 @@ for (Generation in (1 + nGenerationBurn):(nGenerationEval + nGenerationBurn)) {
   print(summary(PedEval$EbvT2))
   print("Selecting GN1 animals")
   GNMales   = selectInd(pop = SelCand, nInd = nGNMales,   gender = "M",
-                        use = "ebv", trait = function(x) rowMeans(x))
+                        use = "ebv", trait = function(x) rowMeans(scale(x)))
   GNFemales = selectInd(pop = SelCand, nInd = nGNFemales, gender = "F",
-                        use = "ebv", trait = function(x) rowMeans(x))
+                        use = "ebv", trait = function(x) rowMeans(scale(x)))
   # Clean
   rm(SelCand)
   
@@ -309,15 +309,15 @@ for (Generation in (1 + nGenerationBurn):(nGenerationEval + nGenerationBurn)) {
     PNFemales1 = BasePNFemales
     PedEval$Program[PedEval$IId %in% BasePNFemales@id] <- "PN1"
     PNFemales1ForPure = selectInd(pop = PNFemales1, nInd = PNFemales1@nInd * pPNFemalesPure,
-                                  use = "pheno", trait = function(x) rowMeans(x, na.rm = TRUE))
+                                  use = "pheno", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   } else {
     PNFemales1ForPure = selectInd(pop = PNFemales1, nInd = PNFemales1@nInd * pPNFemalesPure,
-                                  use = "ebv", trait = function(x) rowMeans(x, na.rm = TRUE))
+                                  use = "ebv", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   }
   
   # Mate Multiplier females and nucleus males
   SelCand = randCross2(females = PNFemales1ForPure, males = GNMales,
-                       nCrosses = PNFemales1ForPure@nInd, nProgeny = 14)
+                       nCrosses = PNFemales1ForPure@nInd, nProgeny = 12)
 
   
   # Save metrics
@@ -420,7 +420,7 @@ for (Generation in (1 + nGenerationBurn):(nGenerationEval + nGenerationBurn)) {
   # PNMales1   = selectInd(pop = SelCand, nInd = nPNMales,   gender = "M",
   #                      use = "ebv", trait = function(x) rowMeans(x, na.rm = TRUE))
   PNFemales1 = selectInd(pop = SelCand, nInd = nPNFemales, gender = "F",
-                        use = "ebv", trait = function(x) rowMeans(x, na.rm = TRUE))
+                        use = "ebv", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   
   # Clean
   rm(SelCand)
@@ -564,9 +564,9 @@ for (Generation in (1 + nGenerationBurn):(nGenerationEval + nGenerationBurn)) {
   
   # Select
   GNMales   = selectInd(pop = SelCand, nInd = nGNMales,   gender = "M",
-                        use = "ebv", trait = function(x) rowMeans(x))
+                        use = "ebv", trait = function(x) rowMeans(scale(x)))
   GNFemales = selectInd(pop = SelCand, nInd = nGNFemales, gender = "F",
-                        use = "ebv", trait = function(x) rowMeans(x))
+                        use = "ebv", trait = function(x) rowMeans(scale(x)))
   # Clean
   rm(SelCand)
  
@@ -579,13 +579,13 @@ for (Generation in (1 + nGenerationBurn):(nGenerationEval + nGenerationBurn)) {
     PNMales2 = BaseGNMales
     PedEval$Program[PedEval$IId %in% BasePNFemales@id] <- "PN2"
     PNFemales2ForPure = selectInd(pop = PNFemales2, nInd = PNFemales2@nInd * pPNFemalesPure,
-                                  use = "pheno", trait = function(x) rowMeans(x, na.rm = TRUE))
+                                  use = "pheno", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   } else {
     PNFemales2ForPure = selectInd(pop = PNFemales2, nInd = PNFemales2@nInd * pPNFemalesPure,
-                                use = "ebv", trait = function(x) rowMeans(x, na.rm = TRUE))
+                                use = "ebv", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   }
   SelCand = randCross2(females = PNFemales2ForPure, males = c(GNMales, PNMales2),
-                       nCrosses = PNFemales2ForPure@nInd, nProgeny = 14)
+                       nCrosses = PNFemales2ForPure@nInd, nProgeny = 12)
 
   # Save metrics
   for (gender in c("F", "M")) {
@@ -686,9 +686,9 @@ for (Generation in (1 + nGenerationBurn):(nGenerationEval + nGenerationBurn)) {
   
   # Select
   PNMales2   = selectInd(pop = SelCand, nInd = nPNMales,   gender = "M",
-                         use = "ebv", trait = function(x) rowMeans(x, na.rm = TRUE))
+                         use = "ebv", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   PNFemales2 = selectInd(pop = SelCand, nInd = nPNFemales, gender = "F",
-                         use = "ebv", trait = function(x) rowMeans(x, na.rm = TRUE))
+                         use = "ebv", trait = function(x) rowMeans(scale(x), na.rm = TRUE))
   
 
   # Clean
