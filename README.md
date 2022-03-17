@@ -1,5 +1,7 @@
-# Please cite: Obšteter et al. (2020), AlphaPart - R implementation of the method for partitioning genetic trends
+# Code for Obšteter et al. (2020), AlphaPart - R implementation of the method for partitioning genetic trends
 
+Obšteter et al. (2020) AlphaPart - R implementation of the method for partitioning genetic trends
+https://doi.org/10.1186/s12711-021-00600-x
 
 This folder contains the code to simulate the analyse the data.
 
